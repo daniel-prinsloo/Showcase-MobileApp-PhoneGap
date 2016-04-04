@@ -33,33 +33,54 @@ function phonegapPlugin(plugin, command, jenkins) {
 };
 
 function phonegapPluginInstall(index, json, command, jenkins, items) {
-    if (index >= json.plugins.length) {
-        console.info('Finished plugin installation');
-        return items;
+    if (json.plugins) {
+        if (index >= json.plugins.length) {
+            console.info('Finished plugin installation');
+            return items;
+        }
+        if (!items)
+            items = "";
+        var plugin = json.plugins[index];
+        var pluginCommand = phonegapPlugin(plugin, command, jenkins);
+        items = items + '\r\n' + pluginCommand;
+        console.info('Running command: ' + pluginCommand);
+        if (!jenkins) {
+            exec(pluginCommand, function (err, stdout, stderr) {
+                console.info(stdout);
+                console.error(stderr);
+            });
+        }
+        return phonegapPluginInstall(index + 1, json, command, jenkins, items);
     }
-    if (!items)
-        items = "";
-    var plugin = json.plugins[index];
-    var pluginCommand = phonegapPlugin(plugin, command, jenkins);
-    items = items + '\r\n' + pluginCommand;
-    console.info('Running command: ' + pluginCommand);
-    if (!jenkins) {
-        exec(pluginCommand, function (err, stdout, stderr) {
-            console.info(stdout);
-            console.error(stderr);
-        });
+    else {
+        return;
     }
-    return phonegapPluginInstall(index + 1, json, command, jenkins, items);
 };
 
 
 gulp.task('add-plugins', function () {
     readJson('package.json', console.error, false, function (er, data) {
         var result = phonegapPluginInstall(0, data, 'add', argv.jenkins);
-        fs.writeFile('plugins.bat', result, 'utf-8', function (err) {
-            if (err)
-                throw err;
-            console.log('File Created');
-        });
+        if (result) {
+            fs.writeFile('plugins.bat', result, 'utf-8', function (err) {
+                if (err)
+                    throw err;
+                console.log('File Created');
+            });
+        }
     });
+});
+
+gulp.task('add-platform-android', function () {
+    exec('phonegap platform add android -d', function (err, stdout, stderr) {
+        console.info(stdout);
+        console.error(stderr);
+    });
+});
+
+gulp.task('setup:phonegap:android', function (callback) {
+    return runSequence(
+        'add-platform-android',
+        'add-plugins',
+        callback);
 });

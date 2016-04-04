@@ -2,11 +2,7 @@ echo 'Deleting old APK...'
 del sageone.apk
 cd "platforms/android/build/outputs/apk"
 del android-release-unsigned.apk
-cd..
-cd..
-cd..
-cd..
-cd..
+cd %~dp0
 echo 'Starting Phonegap build...'
 call phonegap build android --release -d
 echo 'Signing release APK...'

@@ -137,3 +137,5 @@ bower_components
 src/lib/
 .vscode/
 www/*
+platforms/
+plugins/
