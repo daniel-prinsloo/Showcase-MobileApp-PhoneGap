@@ -1,0 +1,27 @@
+{
+  "extends": "eslint:recommended",
+  "plugins": ["angular"],
+  "env": {
+    "browser": true,
+    "jasmine": true
+  },
+  "globals": {
+    "angular": true,
+    "module": true,
+    "inject": true,
+    "_": true,
+    "moment": true,
+    "$": true,
+    "device": true,
+    "urls": true,
+    "Camera": true,
+    "appAvailability": true,
+    "PebbleCompanion": true,
+    "accounting":true,
+    "URI":true,
+    "Uint8Array":true,
+    "jQuery":true,
+    "require":true,
+    "viewportSize":true
+  }
+}

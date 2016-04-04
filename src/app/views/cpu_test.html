@@ -1,0 +1,15 @@
+<div class="scrollable body-scrollable" ng-controller="cpu_test_controller">
+    <div class="scrollable-header">
+        <span class="header-title">CPU Test</span>
+    </div>
+    <div class="scrollable-content">
+        <span class="sub-heading">Calculates the first amount of prime numbers in input field.<span timer-directive></span></span><br>
+        <input class="input" ng-model="amountOfPrimes"/>
+        <span ng-click="calculatePrimes()" class="btn btn-primary">Calculate Primes</span>
+        <span ng-show="test.calculating" ng-click="forceStop()" class="btn btn-warning">Force Stop</span>
+        <br>
+        <span ng-show="!test.calculating && test.result" class="results-cpu-test">{{test.result | number : 3}} second(s)</span>
+        <span ng-show="test.calculating" class="results-cpu-test">Calculating primes...</span>
+        <timer ng-show="test.calculating" />
+    </div>
+</div>

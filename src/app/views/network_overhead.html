@@ -1,0 +1,29 @@
+<div class="scrollable body-scrollable" ng-controller="network_overhead_controller">
+    <div class="scrollable-header">
+        <span class="header-title">Network Overhead Test</span>
+    </div>
+    <div class="scrollable-content">
+        <p class="sub-heading">
+            Calculates the time needed to do a hundred calls to an Web API.
+            In an attempt to compare any possible netork overhead.
+        </p>
+        <p class="content-font">
+            Online API used to test network overhead  
+            <a class="link" ng-click="openWebsite('http://jsonplaceholder.typicode.com');">
+                http://jsonplaceholder.typicode.com
+            </a>
+        </p>
+        <p ng-click="startNetworkTest('http://jsonplaceholder.typicode.com/posts')" class="btn btn-primary">Start Network Overhead Test</p>
+        <div ng-show="calls.length > 0" class="network-request-list">
+            <p class="network-request-listing">
+                Total time: {{getTotal() | milliToSeconds : 1}}s -  Average: {{getAverage() | milliToSeconds : 1}} seconds(s)
+            </p>
+        </div>
+        <div class="network-request-list">
+            <p class="network-request-listing" ng-repeat="call in calls">
+                {{call.count}} - duration:{{call.time | milliToSeconds : 1}} - average: <span ng-class="call.badgeTypeStyle">{{call.average - call.time  | milliToSeconds : 1}}</span> Compared to average
+            </p>
+        </div>
+    </div>
+</div>
+

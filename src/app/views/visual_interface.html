@@ -1,0 +1,15 @@
+<div class="scrollable body-scrollable body-visual-smoothness" ng-controller="visual_smoothness_controller">
+    <div class="scrollable-header">
+        <span class="header-title">Visual Elements Creation Smoothness</span>
+    </div>
+    <div class="scrollable-content">
+        <span ng-show="!started" ng-click="startTest()" class="btn btn-primary">Start Visual Smoothness test</span>
+        <span ng-show="started" ng-click="stopTest()" class="btn btn-danger">Stop Test</span><br>
+        <span>Visual elements active: {{listItems.length}}</span>
+        <div class="visual-test-list-item background-color-{{listItem % 24}}" ng-repeat="listItem in listItems">
+            <div class="visual-test-list-item"></div>    
+        </div>
+    </div>
+</div>
+
+
