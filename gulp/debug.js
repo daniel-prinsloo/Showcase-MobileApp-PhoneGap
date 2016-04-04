@@ -24,13 +24,10 @@ var conf = require('./conf');
 //To see a list of all files in pipe use this in the pipe
 //.pipe($.debug({title: 'debug:'}))
 
-gulp.task('list-dir', function () {
-    gulp.src(path.join(conf.paths.src,'app/views/*.html'))
-        .pipe($.directoryMap({
-            filename: 'urls.json'
-        })).pipe(gulp.dest(path.join(conf.paths.src,'app/constants'))).on('finish', function () {
-            gulp.start('url');
-        });
+gulp.task('debug-clean', function () {
+    return del([
+        path.join(conf.paths.src, '/css/**'),
+        '!'+conf.paths.src + '/css']);
 });
 
 gulp.task('copy-bower-fonts', function () {
@@ -52,22 +49,6 @@ gulp.task('inject', function () {
         .pipe(gulp.dest('./' + conf.paths.src));
 });
 
-gulp.task('url', function () {
-    fs.readFile(path.join(conf.paths.src,'app/constants/urls.json'), 'utf-8', function (err, data) {
-        if (err)
-            throw err;
-        if (data.indexOf("var urls = ") < 0) {
-            var output = [data.slice(0, 0), "var urls = ", data.slice(0)].join('');
-            output += '; //eslint-disable-line no-unused-vars';
-            fs.writeFile(path.join(conf.paths.src,'app/constants/urls.js'), output, 'utf-8', function (err) {
-                if (err)
-                    throw err;
-                console.log('File updated');
-            });
-        }
-    });
-});
-
 gulp.task('less', function () {
     gulp.src(['./' + conf.paths.src + '/~less/*.less', '!**/*.*.less'])
     .pipe($.less())
@@ -81,36 +62,28 @@ gulp.task('less', function () {
 });
 
 gulp.task('watch', function () {
-    if (argv.addplugins === undefined) {
-        gulp.watch('./' + conf.paths.src + '/~less/*.less', ['less']);
-    }
+    gulp.watch('./' + conf.paths.src + '/~less/*.less', ['less']);
 });
 
 gulp.task('watchfiles', function () {
-    if (argv.addplugins === undefined) {
-        $.watch(path.join(conf.paths.src,'app/**/*.js'), function () {
-            gulp.start('inject');
-        });
-        $.watch(path.join(conf.paths.src,'app/views/*.html'), function () {
-            gulp.start('list-dir');
-        });
-    }
+    $.watch(path.join(conf.paths.src,'app/**/*.js'), function () {
+		gulp.start('inject');
+	});
 });
 
 gulp.task('host', function () {
-    if (argv.addplugins === undefined) {
-        gulp.src(conf.paths.src)
-            .pipe($.webserver({
-                livereload: true,
-                open: 'index.html'
-            }));
-    }
+    gulp.src(conf.paths.src)
+		.pipe($.webserver({
+			livereload: true,
+			open: 'index.html'
+		}));
 });
 
 gulp.task('dev-setup', function (callback) {
     return runSequence(
+        'debug-clean',
         'less',
-        ['copy-bower-fonts', 'inject', 'list-dir'],
+        ['copy-bower-fonts', 'inject'],
         'analyse',
         callback);
 });

@@ -135,3 +135,5 @@ node_modules
 bower_components
 
 src/lib/
+.vscode/
+www/*
