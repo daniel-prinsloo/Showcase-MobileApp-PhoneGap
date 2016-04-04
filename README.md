@@ -11,7 +11,7 @@ Showcase and example of mobile application development using PhoneGap/Cordova.
 	$ npm install
 	$ bower install
 	$ gulp setup:phoegap:android (or later gulp setup:phoegap:ios)
-    (Runs $ phonegap platform add android/ios -d)
+    (Runs $ phonegap platform add android/ios -d; Also adds plugins specified in package.json)
 
 ### Build to Phone with Plugins
   
