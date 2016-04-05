@@ -47,7 +47,6 @@
                 $timeout(function() {
                     var stopTime = Date.now();
                     $scope.test.result = (stopTime - $scope.clock.startTime) / 1000;
-                    console.log('stop');
                     $scope.test.calculating = false;
                 });
             });

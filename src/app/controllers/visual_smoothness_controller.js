@@ -1,13 +1,12 @@
 (function() {
     var app = angular.module('Showcase-PhoneGap');
-    app.controller('visual_smoothness_controller', ['$q','$scope','$timeout', '$interval', function($q, $scope, $timeout, $interval) {
+    app.controller('visual_smoothness_controller', ['$q','$scope','$timeout', function($q, $scope, $timeout) {
         $scope.listItems = [];
         $scope.max = 100;
-        var timer = undefined;
         $scope.started = false;
         
         $scope.timeTick = function() {
-           timer = $timeout(
+           $timeout(
                 function() {
                     $scope.listItems.unshift($scope.counter);
                     if ($scope.started) 

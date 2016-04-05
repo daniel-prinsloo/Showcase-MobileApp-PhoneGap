@@ -11,7 +11,7 @@
         $scope.networkTestLoop = function(url){
             $scope.timer = {};
             $scope.timer.startTime = Date.now();
-            rest_service.getCall(url).then(function(data){
+            rest_service.getCall(url).then(function(){
                 $scope.timer.endTime = Date.now();
                 var call = {
                     count:$scope.counter + 1,
