@@ -19,7 +19,8 @@ var conf = require('./gulp/conf');
 gulp.task('serve', function (callback) {
     runSequence(
         'dev-setup',
-        ['host', 'watch', 'watchfiles'],
+        ['watch', 'watchfiles'],
+        'host',
         callback);
 });
 

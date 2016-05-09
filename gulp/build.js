@@ -52,7 +52,7 @@ gulp.task('build-copy-maps', ['build-inject'], function () {
             path.join(conf.paths.tmp, 'css/src.css.map'),
             path.join(conf.paths.tmp, 'js/src.js.map')])
         .pipe(gulp.dest('./' + conf.paths.dist));
-    };
+    }
 });
 
 gulp.task('build-inject-copy', function () {
@@ -86,7 +86,7 @@ gulp.task('build-bower', function(){
         .pipe(gulp.dest(conf.paths.tmp));
 });
 
-gulp.task('build-scripts', ['build-partials'], function(){
+gulp.task('build-scripts', ['build-partials'], function() {
     return gulp.src(conf.sourceScripts())
         .pipe($.addSrc(path.join(conf.paths.tmp, '/partials/templateCacheHtml.js')))
         .pipe($.angularFilesort()).on('error', conf.errorHandler('AngularFilesort'))
@@ -106,7 +106,6 @@ gulp.task('build-styles', function(){
         .pipe($.concat('temp_vendor.css'))
         .pipe(gulp.dest(conf.paths.tmp))
         .pipe($.rename('css/src.css'))
-        .pipe($.cleanCss())
         .pipe($.sourcemaps.write('./'))
         .pipe(gulp.dest(conf.paths.tmp));
 });
@@ -123,8 +122,9 @@ gulp.task('build-copy-other', function () {
             path.join(conf.paths.src, 'images/**/*'),
             path.join(conf.paths.src, 'fonts/**/*'),
             path.join(conf.paths.src, '/*'),
+            //PhoneGap requirement
+            path.join(conf.paths.src, '/cordova.js'),
             path.join('!' + conf.paths.src, '/*.html'),
-            path.join('!' + conf.paths.src, '/*.js'),
             path.join('!' + conf.paths.src, '/~less'),
             path.join('!' + conf.paths.src, '/lib'),
             path.join('!' + conf.paths.src, '/css'),

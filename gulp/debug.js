@@ -31,15 +31,13 @@ gulp.task('debug-clean', function () {
 });
 
 gulp.task('copy-bower-fonts', function () {
-    var target = gulp.src(conf.sourceBower());
-    target
+    return gulp.src(conf.sourceBower())
         .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
         .pipe(gulp.dest('./' + conf.paths.src + '/fonts'));
 });
 
 gulp.task('inject', function () {
-    var target = gulp.src(path.join(conf.paths.src,'/index.html'));
-    target
+    return gulp.src(path.join(conf.paths.src,'/index.html'))
         .pipe($.inject(gulp.src(conf.sourceBower()), {ignorePath: conf.paths.src, addRootSlash: false, name: 'bower'}))
         .pipe($.inject(gulp.src(conf.sourceStyles()), { ignorePath: conf.paths.src, addRootSlash: false }))
         .pipe($.inject(
@@ -50,15 +48,15 @@ gulp.task('inject', function () {
 });
 
 gulp.task('less', function () {
-    gulp.src(['./' + conf.paths.src + '/~less/*.less', '!**/*.*.less'])
-    .pipe($.less())
-    .pipe($.rename({
-        suffix: '.less'
-    }))
-    .pipe($.sourcemaps.init())
-    .pipe($.postcss([autoprefixer({ browsers: ['last 2 versions'] })]))
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest('./' + conf.paths.src + '/css'));
+    return gulp.src(['./' + conf.paths.src + '/~less/*.less', '!**/*.*.less'])
+        .pipe($.less())
+        .pipe($.rename({
+            suffix: '.less'
+        }))
+        .pipe($.sourcemaps.init())
+        .pipe($.postcss([autoprefixer({ browsers: ['last 2 versions'] })]))
+        .pipe($.sourcemaps.write('.'))
+        .pipe(gulp.dest('./' + conf.paths.src + '/css'));
 });
 
 gulp.task('watch', function () {
@@ -68,6 +66,10 @@ gulp.task('watch', function () {
 gulp.task('watchfiles', function () {
     $.watch(path.join(conf.paths.src,'app/**/*.js'), function () {
 		gulp.start('inject');
+        gulp.start('eslint-js');        
+	});
+    $.watch(path.join(conf.paths.src,'app/**/*.html'), function () {
+		gulp.start('validate-html');  
 	});
 });
 
