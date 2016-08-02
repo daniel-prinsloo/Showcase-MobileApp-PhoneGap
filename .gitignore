@@ -134,7 +134,7 @@ node_modules
 ### Bower ###
 bower_components
 
-src/lib/
+src/lib/*
 .vscode/
 www/*
 platforms/
